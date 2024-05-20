@@ -1,0 +1,68 @@
+:root {
+    user-select: none
+}
+
+#game-space {
+    height: 85%;
+    margin: 0 auto;
+    text-align: center;
+    background-color: var(--light-bg);
+}
+
+.beginBTN {
+    padding: 1rem;
+    background-color: transparent;
+    border: 1px solid orange;
+    transition: .1s;
+    text-transform: uppercase;
+    color: #fff;
+    font-size: 1rem;
+}
+
+.beginBTN:hover {
+    scale: .98;
+}
+
+.beginBTN:active {
+    background-color: #585858;
+}
+
+.tile-container {
+    display: grid;
+    grid-template-columns: repeat(6, 100px);
+    grid-gap: 1rem;
+    justify-content: center;
+    margin-bottom: 1rem;
+    padding: 1rem;
+}
+  
+.tile {
+    width: 100px;
+    height: 100px;
+    background-color: #585858;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2em;
+    cursor: pointer;
+    border: .2rem solid transparent;
+}
+  
+.tile.flipped {
+    border: .2rem solid orange;
+    color: #fff;
+}
+
+@keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  .fadeInAnimation {
+    animation: fadeIn 1s;
+  }
