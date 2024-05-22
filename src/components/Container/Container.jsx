@@ -1,6 +1,7 @@
 import './Container.css';
 import React, { useState, useEffect } from 'react';
-import tilePairs from '../Tiles/TilePairs';
+import tilePairs from '../Tiles/TilesImage';
+// import tilePairs from '../Tiles/TilePairs';
 
 const shuffleTiles = () => [...tilePairs].sort(() => 0.5 - Math.random());
 
@@ -54,12 +55,15 @@ export default function Container() {
               className={`tile ${flippedTiles.includes(tile) || matchedTiles.includes(tile.id) ? 'flipped' : ''}`}
               onClick={() => handleTileClick(tile)}
             >
-              {flippedTiles.includes(tile) || matchedTiles.includes(tile.id) ? tile.name : ''}
+              {flippedTiles.includes(tile) || matchedTiles.includes(tile.id) ? (
+                <img src={tile.image} alt={tile.name} className="tile-image" />
+              ) : (
+                ''
+              )}
             </div>
           ))}
         </div>
       </div>
-
       <button className='beginBTN' onClick={handleGameStart}>NEW GAME</button>
     </section>
   );
