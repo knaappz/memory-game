@@ -3,7 +3,7 @@
 }
 
 #game-space {
-    height: 85%;
+    height: 90%;
     margin: 0 auto;
     text-align: center;
     background-color: var(--light-bg);
@@ -63,6 +63,25 @@
 .tile.flipped {
     border: .2rem solid orange;
     color: #fff;
+}
+
+.timer {
+    display: flex;
+    justify-content: space-between;
+}
+
+.timer p{
+    font-size: 1.5rem;
+    padding: .5rem;
+    margin: 0;
+}
+
+.start-info {
+    font-size: 1.1rem;
+}
+
+.time-finish {
+    color: orange;
 }
 
 @keyframes fadeIn {

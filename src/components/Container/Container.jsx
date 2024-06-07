@@ -5,11 +5,31 @@ import tilePairs from '../Tiles/TilesImage';
 
 const shuffleTiles = () => [...tilePairs].sort(() => 0.5 - Math.random());
 
+const formatTime = (seconds) => {
+  const hrs = Math.floor(seconds / 3600);
+  const mins = Math.floor((seconds % 3600) / 60);
+  const secs = seconds % 60;
+  return `${String(hrs).padStart(2, '0')}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+};
+
 export default function Container() {
 
   const [tiles, setTiles] = useState(shuffleTiles());
   const [flippedTiles, setFlippedTiles] = useState([]);
   const [matchedTiles, setMatchedTiles] = useState([]);
+  const [isTimerRunning, setIsTimerRunning] = useState(false);
+  const [time, setTime] = useState(0);
+  const [showPopup, setShowPopup] = useState(false);
+
+  useEffect(() => {
+    let timer;
+    if (isTimerRunning) {
+      timer = setInterval(() => {
+        setTime(prevTime => prevTime + 1);
+      }, 1000);
+    }
+    return () => clearInterval(timer);
+  }, [isTimerRunning]);
 
   useEffect(() => {
     if (flippedTiles.length === 2) {
@@ -21,7 +41,17 @@ export default function Container() {
     }
   }, [flippedTiles]);
 
+  useEffect(() => {
+    if (matchedTiles.length === tiles.length) {
+      setIsTimerRunning(false);
+      setShowPopup(true);
+    }
+  }, [matchedTiles, tiles.length]);
+
   const handleTileClick = (tile) => {
+    if (!isTimerRunning) {
+      setIsTimerRunning(true);
+    }
     if (
       flippedTiles.length < 2 &&
       !flippedTiles.includes(tile) &&
@@ -39,15 +69,34 @@ export default function Container() {
         tileContainer.classList.remove('fadeInAnimation');
       }, 1000);
     }
-    
+
     setTiles(shuffleTiles());
     setMatchedTiles([]);
     setFlippedTiles([]);
+    setTime(0);
+    setIsTimerRunning(false);
+    setShowPopup(false);
   };
 
   return (
     <section id='game-space'>
       <div className="memory-game">
+        <div className='timer'>
+          <p>{formatTime(time)}</p>
+        
+          {showPopup && (
+            <div className="popup">
+            <div className="popup-content">
+              <p>Udało się! Twój czas to: <span className='time-finish'>{formatTime(time)}</span></p>
+            </div>
+            </div>
+          )}
+
+        </div>
+
+        <p className='start-info'><i>Kliknij kafelek a czas zacznie odliczać!</i></p>
+
+
         <div className="tile-container">
           {tiles.map((tile) => (
             <div
@@ -65,6 +114,7 @@ export default function Container() {
         </div>
       </div>
       <button className='beginBTN' onClick={handleGameStart}>NEW GAME</button>
+
     </section>
   );
 }
